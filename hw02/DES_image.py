@@ -154,30 +154,26 @@ def ppmDESEncrypt(imgFn, keyFn):
             header += fp.readline()
         content = fp.read()
 
-    output = BitVector(size=0)
     with open(keyFn, "r", encoding="UTF-8") as fp:
         key = fp.read().strip() # 8 bytes here
 
     roundKey = generate_round_keys(BitVector(textstring=key))
-
     contentBv = BitVector(rawbytes=content)
-    for i in range(0,len(contentBv),64):
-        print(i, len(contentBv))
-        # padding
-        if i+64 > len(contentBv):
-            bv = contentBv[i:]
-            bv += BitVector(size=i+64-len(bv))
-        else:
-            bv = contentBv[i:i+64] 
-
-        for i in range(16):
-            bv = oneRoundEncrypt(bv, roundKey[i])
-
-        output += bv
-
     with open("image_enc.ppm","wb") as fp:
-        print(header, file=fp)
-        print(output, file=fp)
+        fp.write(header)
+        for i in range(0,len(contentBv),64):
+
+            print(i, len(contentBv))
+            # padding
+            if i+64 > len(contentBv):
+                bv = contentBv[i:]
+                bv += BitVector(size=i+64-len(bv))
+            else:
+                bv = contentBv[i:i+64] 
+
+            for i in range(16):
+                bv = oneRoundEncrypt(bv, roundKey[i])
+            bv.write_to_file(fp)
 
 
 if __name__ == "__main__":
