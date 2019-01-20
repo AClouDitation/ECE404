@@ -1,0 +1,58 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/python3}
+
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{k+kn}{from} \PYG{n+nn}{BitVector} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{from} \PYG{n+nn}{progress.bar} \PYG{k+kn}{import} \PYG{n}{FillingSquaresBar}
+
+\PYG{n}{BLOCKSIZE} \PYG{o}{=} \PYG{l+m+mi}{16}
+\PYG{n}{PassPhrase} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Hopes and dreams of a million years\PYGZdq{}}
+
+\PYG{k}{def} \PYG{n+nf}{decrypt}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{,} \PYG{n}{keyBv}\PYG{p}{,} \PYG{n}{bv\PYGZus{}iv}\PYG{p}{):}
+    \PYG{n}{msgDecryptedBv} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{previousBlock} \PYG{o}{=} \PYG{n}{bv\PYGZus{}iv}
+    \PYG{n}{encryptedBv} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{hexstring}\PYG{o}{=}\PYG{n}{msg}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{encryptedBv}\PYG{p}{)} \PYG{o}{//} \PYG{n}{BLOCKSIZE}\PYG{p}{):}
+        \PYG{n}{bv} \PYG{o}{=} \PYG{n}{encryptedBv}\PYG{p}{[}\PYG{n}{i}\PYG{o}{*}\PYG{n}{BLOCKSIZE}\PYG{p}{:(}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{n}{BLOCKSIZE}\PYG{p}{]}
+        \PYG{n}{temp} \PYG{o}{=} \PYG{n}{bv}\PYG{o}{.}\PYG{n}{deep\PYGZus{}copy}\PYG{p}{()}
+        \PYG{n}{bv} \PYG{o}{\PYGZca{}=} \PYG{n}{previousBlock}
+        \PYG{n}{previousBlock} \PYG{o}{=} \PYG{n}{temp}
+        \PYG{n}{bv} \PYG{o}{\PYGZca{}=} \PYG{n}{keyBv}
+        \PYG{n}{msgDecryptedBv} \PYG{o}{+=} \PYG{n}{bv}
+
+    \PYG{n}{decryptedMsg} \PYG{o}{=} \PYG{n}{msgDecryptedBv}\PYG{o}{.}\PYG{n}{get\PYGZus{}text\PYGZus{}from\PYGZus{}bitvector}\PYG{p}{()}
+    \PYG{k}{if} \PYG{l+s+s2}{\PYGZdq{}Cormac McCarthy\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{decryptedMsg}\PYG{p}{:}
+
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}msg.txt\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}msg : \PYGZdq{}}\PYG{o}{+}\PYG{n}{decryptedMsg}\PYG{p}{,} \PYG{n+nb}{file}\PYG{o}{=}\PYG{n}{fp}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}key : binary: \PYGZdq{}}\PYG{p}{,} \PYG{n}{keyBv}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}decimal:\PYGZdq{}}\PYG{p}{,} \PYG{n}{keyBv}\PYG{o}{.}\PYG{n}{int\PYGZus{}val}\PYG{p}{(),} \PYG{n+nb}{file}\PYG{o}{=}\PYG{n}{fp}\PYG{p}{)}
+
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Successfully decrypted!\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+    
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Usage: python3 cryptBreak.py \PYGZlt{}encrypted file\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+            \PYG{n}{encryptedMsg} \PYG{o}{=} \PYG{n}{fp}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+    \PYG{k}{except} \PYG{n}{FileNotFoundError}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}file not found\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+    \PYG{n}{bv\PYGZus{}iv} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{bitlist} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{*}\PYG{n}{BLOCKSIZE}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{PassPhrase}\PYG{p}{)} \PYG{o}{//} \PYG{p}{(}\PYG{n}{BLOCKSIZE} \PYG{o}{//} \PYG{l+m+mi}{8}\PYG{p}{)):}
+        \PYG{n}{textstr} \PYG{o}{=} \PYG{n}{PassPhrase}\PYG{p}{[}\PYG{n}{i}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{:(}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{]}
+        \PYG{n}{bv\PYGZus{}iv} \PYG{o}{\PYGZca{}=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{textstring} \PYG{o}{=} \PYG{n}{textstr}\PYG{p}{)}
+
+    \PYG{n}{bar} \PYG{o}{=} \PYG{n}{FillingSquaresBar}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Processing\PYGZsq{}}\PYG{p}{,} \PYG{n+nb}{max}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{o}{**}\PYG{l+m+mi}{16}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{**}\PYG{l+m+mi}{16}\PYG{p}{):}
+        \PYG{n}{decrypt}\PYG{p}{(}\PYG{n}{encryptedMsg}\PYG{p}{,} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{intVal}\PYG{o}{=}\PYG{n}{i}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{),} \PYG{n}{bv\PYGZus{}iv}\PYG{p}{)}
+        \PYG{n}{bar}\PYG{o}{.}\PYG{n}{next}\PYG{p}{()}
+    \PYG{n}{bar}\PYG{o}{.}\PYG{n}{finish}\PYG{p}{()}
+\end{Verbatim}
