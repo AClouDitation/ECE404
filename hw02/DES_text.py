@@ -119,7 +119,9 @@ def DESEncrypt(msgFn, keyFn):
     with open(keyFn, "r", encoding="UTF-8") as fp:
         key = fp.read().strip() # 8 bytes here
 
-    roundKey = generate_round_keys(BitVector(textstring=key))
+    key = BitVector(textstring=key).permute([y*8+x for y in range(8) for x in range(7)])
+
+    roundKey = generate_round_keys(key)
 
     msgFp = BitVector(filename=msgFn)
     while msgFp.more_to_read:
@@ -152,7 +154,8 @@ def DESDecrypt(encryptedMsgFn, keyFn):
     with open(keyFn, "r", encoding="UTF-8") as fp:
         key = fp.read().strip() # 8 bytes here
 
-    roundKey = generate_round_keys(BitVector(textstring=key))
+    key = BitVector(textstring=key).permute([y*8+x for y in range(8) for x in range(7)])
+    roundKey = generate_round_keys(key)
 
     msgFp = BitVector(filename=encryptedMsgFn)
     while msgFp.more_to_read:
