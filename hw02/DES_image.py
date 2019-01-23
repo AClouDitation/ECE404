@@ -62,6 +62,8 @@ s_boxes[7] = [  [13,2,8,4,6,15,11,1,10,9,3,14,5,0,12,7],
                 [7,11,4,1,9,12,14,2,0,6,10,13,15,3,5,8],
                 [2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11] ]
 
+expansion_permutation = [31, 0, 1, 2, 3, 4, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 11, 12, 11, 12, 13, 14, 15, 16, 15, 16, 17, 18, 19, 20, 19, 20, 21, 22, 23, 24, 23, 24, 25, 26, 27, 28, 27, 28, 29, 30, 31, 0]
+
 def get_encrytpion_key(key):
     key = BitVector(textstring=key)
     key = key.permute(key_permutation_1)
@@ -82,24 +84,6 @@ def generate_round_keys(encryption_key):
     return round_keys
 
 
-def expensionPermutation(bv):
-
-    expendedBv = BitVector(size=0)
-    prepandBit = BitVector(bitlist=[0])
-    appendBit = BitVector(bitlist=[0])
-    for i in range(bv.length()//4):
-        start = i*4
-        if start+4 < bv.length():
-            appendBit = bv[start+4:start+5]
-        else:
-            appendbit = BitVector(bitlist=[0])
-
-        expendedBv += prepandBit + bv[start:start+4] + appendBit
-        prepandBit = bv[start+3:start+4]
-
-    return expendedBv
-
-
 def subsitute(bv):
     
     output = BitVector(size=32)
@@ -114,7 +98,7 @@ def subsitute(bv):
 
 def feistelFunction(rbits, roundKey):
 
-    rbits = expensionPermutation(rbits)
+    rbits = rbits.permut(expansion_permutation)
     rbits ^= roundKey
     rbits = subsitute(rbits)
     rbits = rbits.permute(pbox_permutation)
