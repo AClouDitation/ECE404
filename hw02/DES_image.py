@@ -134,9 +134,8 @@ def ppmDESEncrypt(imgFn, keyFn):
     with open("image_enc.ppm","wb") as fp:
         fp.write(header)
         for i in range(0,len(contentBv),64):
-            print(i, len(contentBv))
 
-            # padding
+			# padding
             if i+64 > len(contentBv):
                 bv = contentBv[i:]
                 bv += BitVector(size=i+64-len(bv))
@@ -148,8 +147,8 @@ def ppmDESEncrypt(imgFn, keyFn):
 
             # swap at the end
             [lbits,rbits] = bv.divide_into_two()
-            bv += rbits+lbits
-            bv.write_to_file(fp)
+            output = rbits+lbits
+            output.write_to_file(fp)
 
 
 if __name__ == "__main__":
