@@ -128,12 +128,13 @@ def ppmDESEncrypt(imgFn, keyFn):
     with open(keyFn, "r", encoding="UTF-8") as fp:
         key = fp.read().strip() # 8 bytes here
 
-    key = BitVector(textstring=key).permute([y*8+x for y in range(8) for x in range(7)])
+    key = get_encrytpion_key(key)
     roundKey = generate_round_keys(key)
     contentBv = BitVector(rawbytes=content)
     with open("image_enc.ppm","wb") as fp:
         fp.write(header)
         for i in range(0,len(contentBv),64):
+            print(i, len(contentBv))
 
             # padding
             if i+64 > len(contentBv):
