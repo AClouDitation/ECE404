@@ -105,26 +105,13 @@ def feistelFunction(rbits, roundKey):
     return rbits
 
 
-def oneRoundEncrypt(bv, roundKey):
+def oneRound(bv, roundKey):
 
     # split into two parts
     [lbits,rbits] = bv.divide_into_two()
-    #print("lbits:", lbits)
-    #print("rbits:", rbits)
 
     newLBits = rbits.deep_copy()
     newRBits = lbits ^ feistelFunction(rbits, roundKey)
-
-    return newLBits+newRBits
-
-
-def oneRoundDecrypt(bv, roundKey):
-
-    # split into two parts
-    [lbits,rbits] = bv.divide_into_two()
-
-    newRBits = lbits.deep_copy()
-    newLBits = rbits ^ feistelFunction(lbits, roundKey)
 
     return newLBits+newRBits
 
@@ -156,7 +143,11 @@ def ppmDESEncrypt(imgFn, keyFn):
                 bv = contentBv[i:i+64] 
 
             for i in range(16):
-                bv = oneRoundEncrypt(bv, roundKey[i])
+                bv = oneRound(bv, roundKey[i])
+
+            # swap at the end
+            [lbits,rbits] = bv.divide_into_two()
+            bv += rbits+lbits
             bv.write_to_file(fp)
 
 

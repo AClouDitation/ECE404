@@ -1,0 +1,158 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}! /usr/bin/python3}
+
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{k+kn}{from} \PYG{n+nn}{BitVector} \PYG{k+kn}{import} \PYG{o}{*}
+
+\PYG{n}{key\PYGZus{}permutation\PYGZus{}1} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{56}\PYG{p}{,}\PYG{l+m+mi}{48}\PYG{p}{,}\PYG{l+m+mi}{40}\PYG{p}{,}\PYG{l+m+mi}{32}\PYG{p}{,}\PYG{l+m+mi}{24}\PYG{p}{,}\PYG{l+m+mi}{16}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{57}\PYG{p}{,}\PYG{l+m+mi}{49}\PYG{p}{,}\PYG{l+m+mi}{41}\PYG{p}{,}\PYG{l+m+mi}{33}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{,}\PYG{l+m+mi}{17}\PYG{p}{,}
+                    \PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{58}\PYG{p}{,}\PYG{l+m+mi}{50}\PYG{p}{,}\PYG{l+m+mi}{42}\PYG{p}{,}\PYG{l+m+mi}{34}\PYG{p}{,}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{18}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{59}\PYG{p}{,}\PYG{l+m+mi}{51}\PYG{p}{,}\PYG{l+m+mi}{43}\PYG{p}{,}\PYG{l+m+mi}{35}\PYG{p}{,}
+                    \PYG{l+m+mi}{62}\PYG{p}{,}\PYG{l+m+mi}{54}\PYG{p}{,}\PYG{l+m+mi}{46}\PYG{p}{,}\PYG{l+m+mi}{38}\PYG{p}{,}\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{l+m+mi}{22}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{61}\PYG{p}{,}\PYG{l+m+mi}{53}\PYG{p}{,}\PYG{l+m+mi}{45}\PYG{p}{,}\PYG{l+m+mi}{37}\PYG{p}{,}\PYG{l+m+mi}{29}\PYG{p}{,}\PYG{l+m+mi}{21}\PYG{p}{,}
+                    \PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{60}\PYG{p}{,}\PYG{l+m+mi}{52}\PYG{p}{,}\PYG{l+m+mi}{44}\PYG{p}{,}\PYG{l+m+mi}{36}\PYG{p}{,}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{27}\PYG{p}{,}\PYG{l+m+mi}{19}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}
+
+\PYG{n}{key\PYGZus{}permutation\PYGZus{}2} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{16}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{23}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{27}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{22}\PYG{p}{,}\PYG{l+m+mi}{18}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}
+                    \PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{19}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{40}\PYG{p}{,}\PYG{l+m+mi}{51}\PYG{p}{,}\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{l+m+mi}{36}\PYG{p}{,}\PYG{l+m+mi}{46}\PYG{p}{,}
+                    \PYG{l+m+mi}{54}\PYG{p}{,}\PYG{l+m+mi}{29}\PYG{p}{,}\PYG{l+m+mi}{39}\PYG{p}{,}\PYG{l+m+mi}{50}\PYG{p}{,}\PYG{l+m+mi}{44}\PYG{p}{,}\PYG{l+m+mi}{32}\PYG{p}{,}\PYG{l+m+mi}{47}\PYG{p}{,}\PYG{l+m+mi}{43}\PYG{p}{,}\PYG{l+m+mi}{48}\PYG{p}{,}\PYG{l+m+mi}{38}\PYG{p}{,}\PYG{l+m+mi}{55}\PYG{p}{,}\PYG{l+m+mi}{33}\PYG{p}{,}\PYG{l+m+mi}{52}\PYG{p}{,}
+                    \PYG{l+m+mi}{45}\PYG{p}{,}\PYG{l+m+mi}{41}\PYG{p}{,}\PYG{l+m+mi}{49}\PYG{p}{,}\PYG{l+m+mi}{35}\PYG{p}{,}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{31}\PYG{p}{]}
+
+\PYG{n}{pbox\PYGZus{}permutation} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{19}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{,}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{27}\PYG{p}{,}\PYG{l+m+mi}{16}\PYG{p}{,}
+                    \PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{22}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{17}\PYG{p}{,}\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}
+                    \PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{23}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{31}\PYG{p}{,}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}
+                    \PYG{l+m+mi}{18}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{29}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{21}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{24}\PYG{p}{]}
+
+\PYG{n}{shifts\PYGZus{}for\PYGZus{}round\PYGZus{}key\PYGZus{}gen} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{i}\PYG{p}{:}\PYG{n+nb+bp}{None} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{)\PYGZcb{}}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}  \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{]} \PYG{p}{]}
+
+\PYG{n}{expansion\PYGZus{}permutation} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{31}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{11}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+m+mi}{11}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+m+mi}{13}\PYG{p}{,} \PYG{l+m+mi}{14}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{16}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{16}\PYG{p}{,} \PYG{l+m+mi}{17}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{,} \PYG{l+m+mi}{19}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{19}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{,} \PYG{l+m+mi}{23}\PYG{p}{,} \PYG{l+m+mi}{24}\PYG{p}{,} \PYG{l+m+mi}{23}\PYG{p}{,} \PYG{l+m+mi}{24}\PYG{p}{,} \PYG{l+m+mi}{25}\PYG{p}{,} \PYG{l+m+mi}{26}\PYG{p}{,} \PYG{l+m+mi}{27}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{27}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{29}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{31}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
+
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}encrytpion\PYGZus{}key}\PYG{p}{(}\PYG{n}{key}\PYG{p}{):}
+    \PYG{n}{key} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{textstring}\PYG{o}{=}\PYG{n}{key}\PYG{p}{)}
+    \PYG{n}{key} \PYG{o}{=} \PYG{n}{key}\PYG{o}{.}\PYG{n}{permute}\PYG{p}{(}\PYG{n}{key\PYGZus{}permutation\PYGZus{}1}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{key}
+
+
+\PYG{k}{def} \PYG{n+nf}{generate\PYGZus{}round\PYGZus{}keys}\PYG{p}{(}\PYG{n}{encryption\PYGZus{}key}\PYG{p}{):}
+    \PYG{n}{round\PYGZus{}keys} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{key} \PYG{o}{=} \PYG{n}{encryption\PYGZus{}key}\PYG{o}{.}\PYG{n}{deep\PYGZus{}copy}\PYG{p}{()}
+    \PYG{k}{for} \PYG{n}{round\PYGZus{}count} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{16}\PYG{p}{):}
+        \PYG{p}{[}\PYG{n}{LKey}\PYG{p}{,} \PYG{n}{RKey}\PYG{p}{]} \PYG{o}{=} \PYG{n}{key}\PYG{o}{.}\PYG{n}{divide\PYGZus{}into\PYGZus{}two}\PYG{p}{()}
+        \PYG{n}{shift} \PYG{o}{=} \PYG{n}{shifts\PYGZus{}for\PYGZus{}round\PYGZus{}key\PYGZus{}gen}\PYG{p}{[}\PYG{n}{round\PYGZus{}count}\PYG{p}{]}
+        \PYG{n}{LKey} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{shift}
+        \PYG{n}{RKey} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{shift}
+        \PYG{n}{key} \PYG{o}{=} \PYG{n}{LKey} \PYG{o}{+} \PYG{n}{RKey}
+        \PYG{n}{round\PYGZus{}key} \PYG{o}{=} \PYG{n}{key}\PYG{o}{.}\PYG{n}{permute}\PYG{p}{(}\PYG{n}{key\PYGZus{}permutation\PYGZus{}2}\PYG{p}{)}
+        \PYG{n}{round\PYGZus{}keys}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{round\PYGZus{}key}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{round\PYGZus{}keys}
+
+
+\PYG{k}{def} \PYG{n+nf}{subsitute}\PYG{p}{(}\PYG{n}{bv}\PYG{p}{):}
+    
+    \PYG{n}{output} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{32}\PYG{p}{)}
+    \PYG{n}{segments} \PYG{o}{=} \PYG{p}{[}\PYG{n}{bv}\PYG{p}{[}\PYG{n}{x}\PYG{o}{*}\PYG{l+m+mi}{6}\PYG{p}{:(}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mi}{6}\PYG{p}{]} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{)]}
+    \PYG{k}{for} \PYG{n}{sindex} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{):}
+        \PYG{n}{row} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{segments}\PYG{p}{[}\PYG{n}{sindex}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{n}{segments}\PYG{p}{[}\PYG{n}{sindex}\PYG{p}{][}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{column} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{segments}\PYG{p}{[}\PYG{n}{sindex}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])}
+        \PYG{n}{output}\PYG{p}{[}\PYG{n}{sindex}\PYG{o}{*}\PYG{l+m+mi}{4}\PYG{p}{:(}\PYG{n}{sindex}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mi}{4}\PYG{p}{]} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{intVal} \PYG{o}{=} \PYG{n}{s\PYGZus{}boxes}\PYG{p}{[}\PYG{n}{sindex}\PYG{p}{][}\PYG{n}{row}\PYG{p}{][}\PYG{n}{column}\PYG{p}{],} \PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{output}
+
+
+\PYG{k}{def} \PYG{n+nf}{feistelFunction}\PYG{p}{(}\PYG{n}{rbits}\PYG{p}{,} \PYG{n}{roundKey}\PYG{p}{):}
+
+    \PYG{n}{rbits} \PYG{o}{=} \PYG{n}{rbits}\PYG{o}{.}\PYG{n}{permute}\PYG{p}{(}\PYG{n}{expansion\PYGZus{}permutation}\PYG{p}{)}
+    \PYG{n}{rbits} \PYG{o}{\PYGZca{}=} \PYG{n}{roundKey}
+    \PYG{n}{rbits} \PYG{o}{=} \PYG{n}{subsitute}\PYG{p}{(}\PYG{n}{rbits}\PYG{p}{)}
+    \PYG{n}{rbits} \PYG{o}{=} \PYG{n}{rbits}\PYG{o}{.}\PYG{n}{permute}\PYG{p}{(}\PYG{n}{pbox\PYGZus{}permutation}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{rbits}
+
+
+\PYG{k}{def} \PYG{n+nf}{oneRound}\PYG{p}{(}\PYG{n}{bv}\PYG{p}{,} \PYG{n}{roundKey}\PYG{p}{):}
+
+    \PYG{c+c1}{\PYGZsh{} split into two parts}
+    \PYG{p}{[}\PYG{n}{lbits}\PYG{p}{,}\PYG{n}{rbits}\PYG{p}{]} \PYG{o}{=} \PYG{n}{bv}\PYG{o}{.}\PYG{n}{divide\PYGZus{}into\PYGZus{}two}\PYG{p}{()}
+
+    \PYG{n}{newLBits} \PYG{o}{=} \PYG{n}{rbits}\PYG{o}{.}\PYG{n}{deep\PYGZus{}copy}\PYG{p}{()}
+    \PYG{n}{newRBits} \PYG{o}{=} \PYG{n}{lbits} \PYG{o}{\PYGZca{}} \PYG{n}{feistelFunction}\PYG{p}{(}\PYG{n}{rbits}\PYG{p}{,} \PYG{n}{roundKey}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{newLBits}\PYG{o}{+}\PYG{n}{newRBits}
+
+
+\PYG{k}{def} \PYG{n+nf}{ppmDESEncrypt}\PYG{p}{(}\PYG{n}{imgFn}\PYG{p}{,} \PYG{n}{keyFn}\PYG{p}{):}
+
+    \PYG{n}{header} \PYG{o}{=} \PYG{l+s+sa}{b}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{content} \PYG{o}{=} \PYG{l+s+sa}{b}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{imgFn}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{):}
+            \PYG{n}{header} \PYG{o}{+=} \PYG{n}{fp}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}
+        \PYG{n}{content} \PYG{o}{=} \PYG{n}{fp}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{keyFn}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}UTF\PYGZhy{}8\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+        \PYG{n}{key} \PYG{o}{=} \PYG{n}{fp}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} 8 bytes here}
+
+    \PYG{n}{key} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{textstring}\PYG{o}{=}\PYG{n}{key}\PYG{p}{)}\PYG{o}{.}\PYG{n}{permute}\PYG{p}{([}\PYG{n}{y}\PYG{o}{*}\PYG{l+m+mi}{8}\PYG{o}{+}\PYG{n}{x} \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{)} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)])}
+    \PYG{n}{roundKey} \PYG{o}{=} \PYG{n}{generate\PYGZus{}round\PYGZus{}keys}\PYG{p}{(}\PYG{n}{key}\PYG{p}{)}
+    \PYG{n}{contentBv} \PYG{o}{=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{rawbytes}\PYG{o}{=}\PYG{n}{content}\PYG{p}{)}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}enc.ppm\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}wb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+        \PYG{n}{fp}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{header}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{contentBv}\PYG{p}{),}\PYG{l+m+mi}{64}\PYG{p}{):}
+
+            \PYG{c+c1}{\PYGZsh{} padding}
+            \PYG{k}{if} \PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{64} \PYG{o}{\PYGZgt{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{contentBv}\PYG{p}{):}
+                \PYG{n}{bv} \PYG{o}{=} \PYG{n}{contentBv}\PYG{p}{[}\PYG{n}{i}\PYG{p}{:]}
+                \PYG{n}{bv} \PYG{o}{+=} \PYG{n}{BitVector}\PYG{p}{(}\PYG{n}{size}\PYG{o}{=}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{64}\PYG{o}{\PYGZhy{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{bv}\PYG{p}{))}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{bv} \PYG{o}{=} \PYG{n}{contentBv}\PYG{p}{[}\PYG{n}{i}\PYG{p}{:}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{64}\PYG{p}{]} 
+
+            \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{16}\PYG{p}{):}
+                \PYG{n}{bv} \PYG{o}{=} \PYG{n}{oneRound}\PYG{p}{(}\PYG{n}{bv}\PYG{p}{,} \PYG{n}{roundKey}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+
+            \PYG{c+c1}{\PYGZsh{} swap at the end}
+            \PYG{p}{[}\PYG{n}{lbits}\PYG{p}{,}\PYG{n}{rbits}\PYG{p}{]} \PYG{o}{=} \PYG{n}{bv}\PYG{o}{.}\PYG{n}{divide\PYGZus{}into\PYGZus{}two}\PYG{p}{()}
+            \PYG{n}{bv} \PYG{o}{+=} \PYG{n}{rbits}\PYG{o}{+}\PYG{n}{lbits}
+            \PYG{n}{bv}\PYG{o}{.}\PYG{n}{write\PYGZus{}to\PYGZus{}file}\PYG{p}{(}\PYG{n}{fp}\PYG{p}{)}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+
+   \PYG{n}{ppmDESEncrypt}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}image.ppm\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}key.txt\PYGZdq{}}\PYG{p}{)} 
+\end{Verbatim}

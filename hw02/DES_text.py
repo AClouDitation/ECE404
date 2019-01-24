@@ -3,6 +3,8 @@
 import sys
 from BitVector import *
 
+expansion_permutation = [31, 0, 1, 2, 3, 4, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 11, 12, 11, 12, 13, 14, 15, 16, 15, 16, 17, 18, 19, 20, 19, 20, 21, 22, 23, 24, 23, 24, 25, 26, 27, 28, 27, 28, 29, 30, 31, 0]
+
 key_permutation_1 = [56,48,40,32,24,16,8,0,57,49,41,33,25,17,
                     9,1,58,50,42,34,26,18,10,2,59,51,43,35,
                     62,54,46,38,30,22,14,6,61,53,45,37,29,21,
@@ -12,11 +14,6 @@ key_permutation_2 = [13,16,10,23,0,4,2,27,14,5,20,9,22,18,11,
                     3,25,7,15,6,26,19,12,1,40,51,30,36,46,
                     54,29,39,50,44,32,47,43,48,38,55,33,52,
                     45,41,49,35,28,31]
-
-pbox_permutation = [15,6,19,20,28,11,27,16,
-                    0,14,22,25,4,17,30,9,
-                    1,7,23,13,31,26,2,8,
-                    18,12,29,5,21,10,3,24]
 
 shifts_for_round_key_gen = [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]
 
@@ -62,11 +59,17 @@ s_boxes[7] = [  [13,2,8,4,6,15,11,1,10,9,3,14,5,0,12,7],
                 [7,11,4,1,9,12,14,2,0,6,10,13,15,3,5,8],
                 [2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11] ]
 
-expansion_permutation = [31, 0, 1, 2, 3, 4, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 11, 12, 11, 12, 13, 14, 15, 16, 15, 16, 17, 18, 19, 20, 19, 20, 21, 22, 23, 24, 23, 24, 25, 26, 27, 28, 27, 28, 29, 30, 31, 0]
+pbox_permutation = [15,6,19,20,28,11,27,16,
+                    0,14,22,25,4,17,30,9,
+                    1,7,23,13,31,26,2,8,
+                    18,12,29,5,21,10,3,24]
+
 def get_encrytpion_key(key):
+    # return key after permutation as a bit vector
     key = BitVector(textstring=key)
-    key = key.permute(key_permutation_1)
-    return key
+
+    # take the first 7 bits of each byte and permute
+    return key.permute(key_permutation_1)
 
 def generate_round_keys(encryption_key):
     round_keys = []
@@ -84,6 +87,7 @@ def generate_round_keys(encryption_key):
 
 def subsitute(bv):
     
+    # subsitute using s-boxes
     output = BitVector(size=32)
     segments = [bv[x*6:(x+1)*6] for x in range(8)]
     for sindex in range(8):
@@ -102,7 +106,7 @@ def feistelFunction(rbits, roundKey):
     rbits = rbits.permute(pbox_permutation)
     return rbits
 
-def oneRoundEncrypt(bv, roundKey):
+def oneRound(bv, roundKey):
 
     # split into two parts
     [lbits,rbits] = bv.divide_into_two()
@@ -113,73 +117,59 @@ def oneRoundEncrypt(bv, roundKey):
     return newLBits+newRBits
 
 
-def DESEncrypt(msgFn, keyFn):
+def DES(msgFp, roundkey):
 
     output = BitVector(size=0)
-    with open(keyFn, "r", encoding="UTF-8") as fp:
-        key = fp.read().strip() # 8 bytes here
-
-    key = BitVector(textstring=key).permute([y*8+x for y in range(8) for x in range(7)])
-
-    roundKey = generate_round_keys(key)
-
-    msgFp = BitVector(filename=msgFn)
     while msgFp.more_to_read:
         bv = msgFp.read_bits_from_file(64)
 
         # padding
-        if not msgFp.more_to_read and bv.length() < 64:
+        if bv.length() < 64:
             bv += BitVector(size=64-len(bv))
-        for i in range(16):
-            bv = oneRoundEncrypt(bv, roundKey[i])
 
-        output += bv
+        # 16 round encryption
+        for i in range(16):
+            bv = oneRound(bv, roundKey[i])
+
+        # swap at the end
+        [lbits,rbits] = bv.divide_into_two()
+        output += rbits+lbits
+
     return output
 
 
-def oneRoundDecrypt(bv, roundKey):
-
-    # split into two parts
-    [lbits,rbits] = bv.divide_into_two()
-
-    newRBits = lbits.deep_copy()
-    newLBits = rbits ^ feistelFunction(lbits, roundKey)
-
-    return newLBits+newRBits
+def encrypt(msgFp, roundkey):
+    return DES(msgFp, roundkey)
 
 
-def DESDecrypt(encryptedMsgFn, keyFn):
-
-    output = BitVector(size=0)
-    with open(keyFn, "r", encoding="UTF-8") as fp:
-        key = fp.read().strip() # 8 bytes here
-
-    key = BitVector(textstring=key).permute([y*8+x for y in range(8) for x in range(7)])
-    roundKey = generate_round_keys(key)
-
-    msgFp = BitVector(filename=encryptedMsgFn)
-    while msgFp.more_to_read:
-        bv = msgFp.read_bits_from_file(64)
-
-        # padding
-        if not msgFp.more_to_read and bv.length() < 64:
-            bv += BitVector(size=64-len(bv))
-        for i in range(16):
-            bv = oneRoundDecrypt(bv, roundKey[15-i])
-
-        output += bv
-    return output
+def decrypt(msgFp, roundkey):
+    return DES(msgFp, roundkey.reverse())
 
 
 if __name__ == "__main__":
 
-    encryptedMsg = DESEncrypt("message.txt", "key.txt")
+    # read key from file
+    with open("key.txt", "r", encoding="UTF-8") as fp:
+        key = fp.read().strip() # 8 bytes here
+
+    key = get_encrytpion_key(key)
+
+    print("Encrypting...")
+    roundKey = generate_round_keys(key)
+    msgFp = BitVector(filename="message.txt")
+    encryptedMsg = encrypt(msgFp, roundKey)
     with open("encryptedMsg.txt","wb") as fp:
         encryptedMsg.write_to_file(fp)
+    print("Done!")
 
-    decryptedMsg = DESDecrypt("encryptedMsg.txt", "key.txt")
+    print("Decrypting...")
+    roundKey = generate_round_keys(key)
+    msgFp = BitVector(filename="encryptedMsg.txt")
+    decryptedMsg = decrypt(msgFp, roundKey)
+    
     with open("decryptedMsg.txt","wb") as fp:
         decryptedMsg.write_to_file(fp)
+    print("Done!")
 
         
         
