@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 from BitVector import *
 from math import ceil
 import sys
@@ -44,7 +45,7 @@ def gee(keyword, round_constant, byte_sub_table):
 
 
 def gen_key_schedule_256(key_bv):
-    byte_sub_table = gen_subbytes_table()
+    byte_sub_table = subBytesTable
     #  We need 60 keywords (each keyword consists of 32 bits) in the key schedule for
     #  256 bit AES. The 256-bit AES uses the first four keywords to xor the input
     #  block with.  Subsequently, each of the 14 rounds uses 4 keywords from the key
@@ -70,17 +71,6 @@ def gen_key_schedule_256(key_bv):
         else:
             sys.exit("error in key scheduling algo for i = %d" % i)
     return key_words
-
-
-def gen_subbytes_table():
-    subBytesTable = []
-    c = BitVector(bitstring='01100011')
-    for i in range(0, 256):
-        a = BitVector(intVal = i, size=8).gf_MI(AES_modulus, 8) if i != 0 else BitVector(intVal=0)
-        a1,a2,a3,a4 = [a.deep_copy() for x in range(4)]
-        a ^= (a1 >> 4) ^ (a2 >> 5) ^ (a3 >> 6) ^ (a4 >> 7) ^ c
-        subBytesTable.append(int(a))
-    return subBytesTable
 
 
 def get_key_from_user():
