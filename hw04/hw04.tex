@@ -1,0 +1,152 @@
+\documentclass[11pt]{article}
+
+% ------
+% LAYOUT
+% ------
+\textwidth 165mm %
+\textheight 230mm %
+\oddsidemargin 0mm %
+\evensidemargin 0mm %
+\topmargin -15mm %
+\parindent= 10mm
+
+\usepackage[dvips]{graphicx}
+\usepackage{multirow,multicol}
+\usepackage[table]{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\usepackage{subfigure}
+\usepackage{minted}
+\usepackage{listings}
+
+\usepackage{scalerel}
+\usepackage{stackengine}
+\newcommand\showdiv[1]{\overline{\smash{\hstretch{.5}{)}\mkern-3.2mu\hstretch{.5}{)}}#1}}
+\newcommand\ph[1]{\textcolor{white}{#1}}
+
+\lstset{
+  breaklines=true,
+}
+
+\begin{document}
+\noindent Homework Number: 04\\
+Name: Yi Qiao\\
+ECN Login: qiao22\\
+Due Date: 02/12/2019\\
+
+\section*{Theory Problems}
+\subsection*{1.}
+\subsubsection*{(a)}
+$$(2x+3)-(2x^3+3x-2)$$
+\begin{equation}
+\begin{split}
+&=-2x^3-x+3+2\\
+&=3x^3+4x
+\end{split}
+\end{equation}
+
+\subsubsection*{(b)}
+$$(3x^3+x-2)\times(x^2+4x+3)$$
+\begin{equation}
+\begin{split}
+&=3x^5+12x^4+9x^3+x^3+4x^2+3x-2x^2-8x-6\\
+&=3x^5+2x^4+2x^2+4
+\end{split}
+\end{equation}
+
+\subsubsection*{(c)}
+$$\frac{x^3+3x+4}{x^2+1}$$
+\begin{center}
+	\setstackgap{S}{1.5pt}
+	\stackMath\def\stackalignment{r}
+	\(
+	\stackunder{%
+		x^2+1 \stackon[1pt]{\showdiv{x^3+3x+4}}{x\ \ \ \ \ \ \ \ \ \ \ \ \ }%
+	}
+	{%
+		\Shortstack[l]{
+			{\underline{x^3+x\ \ \ \ \ \ }} 
+			\ph{1}\ \ \ \ \ 2x+4 
+		}%
+	}
+	\)
+\end{center}
+thus,
+\begin{equation}
+	\frac{x^3+3x+4}{x^2+1}=x+\frac{2x+4}{x^2+1}
+\end{equation}
+
+\subsection*{2.}
+\subsubsection*{(a)}
+$$(x^3+x)\times(x+1)$$
+\begin{equation}
+\begin{split}
+&=(x^4+x^2+x^3+x)\mod(x^4+x^3+1)\\
+&\because \ x^4+x^3+1=0\\
+&\therefore x^4=x^3+1\\
+&=x^3+1+x^2+x^3+x\\
+&=x^2+x+1
+\end{split}
+\end{equation}
+
+\pagebreak
+\subsubsection*{(b)}
+$$(x^2+x)-(x^3+x^2+1)$$
+\begin{equation}
+\begin{split}
+&=x^3+x+1
+\end{split}
+\end{equation}
+
+\subsubsection*{(c)}
+$$\frac{x^3+x^2+x+1}{x^2+1}$$
+\begin{center}
+	\setstackgap{S}{1.5pt}
+	\stackMath\def\stackalignment{r}
+	\(
+	\stackunder{%
+		x^2+1 \stackon[1pt]{\showdiv{x^3+x^2+x+1}}{x+1\ \ \ \ \ \ \ \ \ \ \ \ \ }%
+	}
+	{%
+		\Shortstack[l]{
+			{\underline{x^3\ \ \ \ \ \ +x\ \ \ \ \ }} 
+			\ph{x^3+}x^2\ \ \ \ \ +1 {\ph{x^3+}\underline{x^2\ \ \ \ \ +1}}
+			\ph{x^3+x^2\ \ \ \ \ +}0
+		}%
+	}
+	\)
+\end{center}
+thus,
+\begin{equation}
+\frac{x^3+x^2+x+1}{x^2+1}=x+1
+\end{equation}
+
+\subsection*{3.}
+\begin{equation}
+\begin{split}
+&\ \ 0\\
+g^0&=1\\
+g^1&=g\\
+g^2&=g^2\\
+g^3&=g^3\\
+g^4=-g-1&=g+1\\
+g^5=g(g^4)=g(g+1)&=g^2+g\\
+g^6=g(g^5)=g(g^2+g)&=g^3+g^2\\
+g^7=g(g^6)=g(g^3+g^2)=g^4+g^3&=g^3+g+1\\
+g^8=g(g^7)=g(g^3+g+1)=g^4+g^2+g&=g^2+1\\
+g^9=g(g^8)=g(g^2+1)&=g^3+g\\
+g^{10}=g(g^9)=g(g^3+g)=g^4+g^2&=g^2+g+1\\
+g^{11}=g(g^{10})=g(g^2+g+1)&=g^3+g^2+g\\
+g^{12}=g(g^{11})=g(g^3+g^2+g)=g^4+g^3+g^2&=g^3+g^2+g+1\\
+g^{13}=g(g^{12})=g(g^3+g^2+g+1)=g^4+g^3+g^2+g&=g^3+g^2+1\\
+g^{14}=g(g^{13})=g(g^3+g^2+1)=g^4+g^3+g=g^3+1\\
+\\
+g^{15}=g(g^{14})=g(g^3+1)=g^4+g&=1\\
+\vdots
+\end{split}
+\end{equation}
+\end{document}
