@@ -23,16 +23,6 @@ def genTables():
         a1,a2,a3,a4 = [a.deep_copy() for x in range(4)]
         a ^= (a1 >> 4) ^ (a2 >> 5) ^ (a3 >> 6) ^ (a4 >> 7) ^ c
         subBytesTable.append(int(a))
-        """
-        # For the decryption Sbox:
-        b = BitVector(intVal = i, size=8)
-        # For bit scrambling for the decryption SBox entries:
-        b1,b2,b3 = [b.deep_copy() for x in range(3)]
-        b = (b1 >> 2) ^ (b2 >> 5) ^ (b3 >> 7) ^ d
-        check = b.gf_MI(AES_modulus, 8)
-        b = check if isinstance(check, BitVector) else 0
-        invSubBytesTable.append(int(b))
-        """
 
 
 def gee(keyword, round_constant, byte_sub_table):
@@ -98,9 +88,7 @@ def bitvector_to_stateBlock(bv):
     return [[bv[j*32+i*8:j*32+i*8+8] for j in range(4)] for i in range(4)]
 
 
-
-
-def AESEncryptOneBlock(bv, key_file):
+def AESEncryptOneBlock(bv, key_bytes):
     
     def oneRoundAESEncrypt(bv, roundkey, lastround=False):
         
@@ -135,10 +123,6 @@ def AESEncryptOneBlock(bv, key_file):
 
         return bv
 
-
-    key_bv = get_key_from_user(key_file)
-    key_bytes = gen_key_schedule_256(key_bv)
-
     if bv.length() < 128:
         bv.pad_from_right(128-bv.length())
 
@@ -157,17 +141,21 @@ def AESEncryptOneBlock(bv, key_file):
 def x931(v0, dt, totalNum, key_file='key.txt'):
 
     v_last = v0
-    encryptedTime = AESEncryptOneBlock(dt, key_file)
+    key_bv = get_key_from_user(key_file)
+    key_bytes = gen_key_schedule_256(key_bv)
+
+    encryptedTime = AESEncryptOneBlock(dt, key_bytes)
     ranNums = [None for _ in range(totalNum)]
     for i in range(totalNum):
-        ranNums[i] = AESEncryptOneBlock(encryptedTime^v_last, key_file)
-        v_last = AESEncryptOneBlock(ranNums[i] ^ encryptedTime, key_file)
+        ranNums[i] = AESEncryptOneBlock(encryptedTime^v_last, key_bytes)
+        v_last = AESEncryptOneBlock(ranNums[i] ^ encryptedTime, key_bytes)
 
     return [int(x) for x in ranNums]
 
 if __name__ == "__main__":
     genTables()
-    dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
+    #dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
+    dt = BitVector(textstring="0123456789abcdef")
     rans = x931(v0,dt,10)
-    print(rans)
-    pass
+    for ran in rans:
+        print(ran)
