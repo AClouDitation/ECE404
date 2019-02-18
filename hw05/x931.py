@@ -167,7 +167,8 @@ def x931(v0, dt, totalNum, key_file='key.txt'):
 
 if __name__ == "__main__":
     genTables()
-    dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
+    #dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
+    dt = BitVector(textstring="0123456789abcdef")
     rans = x931(v0,dt,10)
     print(rans)
     pass

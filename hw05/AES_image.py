@@ -175,7 +175,7 @@ def ctr_aes_image(iv, image_file='image.ppm', out_file='enc_image.ppm', key_file
     with open(out_file, "wb") as fp:
         fp.write(header)
         for i in range(0,len(content_bv),128):
-            print(i, len(content_bv))
+            print("block: %d / %d"%(i, len(content_bv)))
             iv+=1
             encrypted_bv = AESEncryptOneBlock(BitVector(intVal = iv, size = 128), key_bytes)
             img_blk = content_bv[i:min(len(content_bv), i+128)]
