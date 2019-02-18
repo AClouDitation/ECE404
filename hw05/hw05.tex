@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+
+% ------
+% LAYOUT
+% ------
+\textwidth 165mm %
+\textheight 230mm %
+\oddsidemargin 0mm %
+\evensidemargin 0mm %
+\topmargin -15mm %
+\parindent= 10mm
+
+\usepackage[dvips]{graphicx}
+\usepackage{multirow,multicol}
+\usepackage[table]{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\usepackage{subfigure}
+\usepackage{minted}
+\usepackage{listings}
+
+\usepackage{scalerel}
+\usepackage{stackengine}
+\newcommand\showdiv[1]{\overline{\smash{\hstretch{.5}{)}\mkern-3.2mu\hstretch{.5}{)}}#1}}
+\newcommand\ph[1]{\textcolor{white}{#1}}
+
+\lstset{
+  breaklines=true,
+}
+
+\begin{document}
+\noindent Homework Number: 05\\
+Name: Yi Qiao\\
+ECN Login: qiao22\\
+Due Date: 02/19/2019\\
+
+\section*{Encrypted Image}
+
+\includegraphics[width=0.8\linewidth]{enc_image.jpg}
+
+\section*{Code}
+\subsection*{Part 1}
+\inputminted[breaklines]{python}{x931.py}
+
+\subsection*{Part 2}
+\inputminted[breaklines]{python}{AES_image.py}
+
+\end{document}
