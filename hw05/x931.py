@@ -7,7 +7,6 @@ import copy
 
 AES_modulus = BitVector(bitstring='100011011')
 subBytesTable = []                                                  # for encryption
-#invSubBytesTable = []                                               # for decryption
 MAXROUND = 14
 
 v0=BitVector(textstring="computersecurity")
@@ -154,8 +153,7 @@ def x931(v0, dt, totalNum, key_file='key.txt'):
 
 if __name__ == "__main__":
     genTables()
-    #dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
-    dt = BitVector(textstring="0123456789abcdef")
+    dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
     rans = x931(v0,dt,10)
     for ran in rans:
         print(ran)
