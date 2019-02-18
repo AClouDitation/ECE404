@@ -22,16 +22,6 @@ def genTables():
         a1,a2,a3,a4 = [a.deep_copy() for x in range(4)]
         a ^= (a1 >> 4) ^ (a2 >> 5) ^ (a3 >> 6) ^ (a4 >> 7) ^ c
         subBytesTable.append(int(a))
-        """
-        # For the decryption Sbox:
-        b = BitVector(intVal = i, size=8)
-        # For bit scrambling for the decryption SBox entries:
-        b1,b2,b3 = [b.deep_copy() for x in range(3)]
-        b = (b1 >> 2) ^ (b2 >> 5) ^ (b3 >> 7) ^ d
-        check = b.gf_MI(AES_modulus, 8)
-        b = check if isinstance(check, BitVector) else 0
-        invSubBytesTable.append(int(b))
-        """
 
 
 def gee(keyword, round_constant, byte_sub_table):
@@ -191,4 +181,4 @@ if __name__ == "__main__":
     genTables()
     print("AES Table generated")
     dt = BitVector(intVal=int(10**6*time.time()))+BitVector(intVal=int(10**6*time.time()))
-    ctr_aes_image(x931(v0,dt,1,'key2.txt')[0],key_file='key2.txt')
+    ctr_aes_image(x931(v0,dt,1,'key.txt')[0],key_file='key2.txt')
