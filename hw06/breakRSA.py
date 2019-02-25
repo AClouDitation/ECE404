@@ -70,6 +70,10 @@ def CRT(rs):
 
 if __name__ == "__main__":
 
+    if len(sys.argv) != 3:
+        print("Usage: ./breakRSA.py <input_file> <output_file>")
+        sys.exit(1)
+
     # generate p, q, n for 3 receivers
     receivers = [generateN() for i in range(3)]
 
@@ -99,4 +103,9 @@ if __name__ == "__main__":
 
             # take cube root
             msg = BitVector(intVal = sp(3, msg_cube), size=128)
-            msg.write_to_file(fp)
+            if i + 256 < len(encryptedMsg[0]):
+                msg.write_to_file(fp)
+            else:
+                for k in range(0, 128, 8):
+                    if int(msg[k:k+8]) != 0:
+                        msg[k:k+8].write_to_file(fp)

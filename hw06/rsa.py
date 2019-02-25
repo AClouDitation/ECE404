@@ -120,7 +120,12 @@ def main():
         with open(sys.argv[3], "wb") as fp:
             for i in range(0, len(msg_bv), 256):
                 decryptedMsg = RSADecryption(msg_bv[i:i+256], d_Bv, n)
-                decryptedMsg.write_to_file(fp)
+                if i + 256 < len(msg_bv):
+                    decryptedMsg.write_to_file(fp)
+                else:
+                    for k in range(0, 128, 8):
+                        if int(decryptedMsg[k:k+8]) != 0:
+                            decryptedMsg[k:k+8].write_to_file(fp)
 
     else:
         print("""Usage: ./rsa.py <flag> <input file> <output file>
