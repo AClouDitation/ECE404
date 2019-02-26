@@ -89,6 +89,9 @@ def main():
         e_Bv = BitVector(intVal = e)
         p, q = get_pq_from_file()
         n = p * q
+        print("p: %d"%(p))
+        print("q: %d"%(q))
+        print("n: %d"%(n))
 
         with open(sys.argv[2], "r") as fp:
             msg = fp.read()

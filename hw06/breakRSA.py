@@ -87,11 +87,11 @@ if __name__ == "__main__":
     # for each receiver, encrypt the message with their respectively public key
     for index, receiver in enumerate(receivers):
 
-        with open("receiver_%d_encryted.txt"%(index), "wb") as fp:
-            fp.write(("n:%d\n"%(receiver[2])).encode())
+        with open("receiver_%d_encryted.txt"%(index), "w") as fp:
+            fp.write("n:%d\n"%(receiver[2]))
             for i in range(0, len(msg_bv), 128):
                 encryptedMsg[index] += RSAEncryption(msg_bv[i:min(len(msg_bv),i+128)], e_bv, receiver[2])
-            encryptedMsg[index].write_to_file(fp)
+            fp.write(encryptedMsg[index].get_bitvector_in_hex())
 
     # crack RSA with CRT
     with open(sys.argv[2], "wb") as fp:
