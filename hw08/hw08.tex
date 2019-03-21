@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+
+% ------
+% LAYOUT
+% ------
+\textwidth 165mm %
+\textheight 230mm %
+\oddsidemargin 0mm %
+\evensidemargin 0mm %
+\topmargin -15mm %
+\parindent= 10mm
+
+\usepackage[dvips]{graphicx}
+\usepackage{multirow,multicol}
+\usepackage[table]{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\usepackage{subfigure}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{seqsplit}
+
+
+\begin{document}
+\noindent Homework Number: 08\\
+Name: Yi Qiao\\
+ECN Login: qiao22\\
+Due Date: 03/21/2019\\
+
+\section*{TCP dump}
+
+The first 5 packets are used to scan ports, and following by 5 syn packets as DOS attack.
+
+\lstinputlisting[breaklines=true, basicstyle=\small]{tcpdumpoutput.txt}
+\pagebreak
+\section*{Code}
+\inputminted[breaklines]{python}{TcpAttack.py}
+\end{document}
