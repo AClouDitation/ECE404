@@ -5,7 +5,8 @@ if __name__ == "__main__":
 
     spoofIP = "233.233.233.233"
     #targetIP = "127.0.0.1"
-    targetIP = "134.209.60.57"
+    #targetIP = "134.209.60.57"
+    targetIP = "104.193.88.77"
 
     Tcp = TcpAttack(spoofIP, targetIP)
     Tcp.scanTarget(2332, 2333)
