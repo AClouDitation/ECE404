@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}! /bin/bash}
+
+iptables \PYGZhy{}t filter \PYGZhy{}F
+iptables \PYGZhy{}t filter \PYGZhy{}X
+iptables \PYGZhy{}t nat \PYGZhy{}F
+iptables \PYGZhy{}t nat \PYGZhy{}X
+\PYG{n+nb}{echo} All rules and chains removed
+
+\PYG{c+c1}{\PYGZsh{} Create a new chain for the filter table}
+\PYG{c+c1}{\PYGZsh{} masqerade all output}
+iptables \PYGZhy{}t nat \PYGZhy{}A POSTROUTING \PYGZhy{}j MASQUERADE
+
+\PYG{c+c1}{\PYGZsh{} block connections from ip in IPs}
+\PYG{n+nv}{IPs}\PYG{o}{=(}\PYG{l+s+s2}{\PYGZdq{}123.123.123.123\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}233.233.233.233\PYGZdq{}}\PYG{o}{)}
+\PYG{k}{for} x in \PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{IPs}\PYG{p}{[@]}\PYG{l+s+si}{\PYGZcb{}} 
+\PYG{k}{do}
+    iptables \PYGZhy{}A INPUT \PYGZhy{}s \PYG{n+nv}{\PYGZdl{}x} \PYGZhy{}j REJECT
+    \PYG{n+nb}{echo} Reject connection from \PYG{n+nv}{\PYGZdl{}x}
+\PYG{k}{done}
+
+\PYG{c+c1}{\PYGZsh{} block from being pinged}
+iptables \PYGZhy{}A INPUT \PYGZhy{}p icmp \PYGZhy{}\PYGZhy{}icmp\PYGZhy{}type echo\PYGZhy{}request \PYGZhy{}j DROP
+\PYG{n+nb}{echo} No pinging allowed
+
+\PYG{c+c1}{\PYGZsh{} get ip of this machine}
+\PYG{n+nv}{ip}\PYG{o}{=}\PYG{k}{\PYGZdl{}(}hostname \PYGZhy{}I \PYG{p}{|} sed \PYG{l+s+s1}{\PYGZsq{}s/ //g\PYGZsq{}}\PYG{k}{)}
+
+\PYG{c+c1}{\PYGZsh{} ssh forwarding}
+iptables \PYGZhy{}t nat \PYGZhy{}A PREROUTING \PYGZhy{}d \PYG{n+nv}{\PYGZdl{}ip} \PYGZhy{}p tcp\PYG{l+s+se}{\PYGZbs{}}
+    \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{2333} \PYGZhy{}j DNAT \PYGZhy{}\PYGZhy{}to\PYGZhy{}destination \PYG{n+nv}{\PYGZdl{}ip}:22
+\PYG{n+nb}{echo} SSH port forwarding \PYG{n+nb}{set} up
+
+\PYG{c+c1}{\PYGZsh{} only accept ssh from engineering.purdue.edu}
+iptables \PYGZhy{}A INPUT \PYGZhy{}p tcp \PYGZhy{}s \PYG{l+m}{128}.46.0.0 \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{22} \PYGZhy{}j ACCEPT
+iptables \PYGZhy{}A INPUT \PYGZhy{}p tcp \PYGZhy{}s \PYG{l+m}{0}.0.0.0/0 \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{22} \PYGZhy{}j DROP
+\PYG{n+nb}{echo} Allow \PYG{k}{for} SSH only from engineering.purdue.edu
+
+iptables \PYGZhy{}A INPUT \PYGZhy{}p tcp \PYGZhy{}s \PYG{l+m}{233}.233.233.233 \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{80} \PYGZhy{}j ACCEPT
+iptables \PYGZhy{}A INPUT \PYGZhy{}p tcp \PYGZhy{}s \PYG{l+m}{0}.0.0.0/0 \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{80} \PYGZhy{}j DROP
+\PYG{n+nb}{echo} Only \PYG{l+m}{233}.233.233.233 can access this machine through HTTP
+
+iptables \PYGZhy{}A INPUT \PYGZhy{}p tcp \PYGZhy{}\PYGZhy{}dport \PYG{l+m}{113} \PYGZhy{}j ACCEPT
+\PYG{n+nb}{echo} Permit Auth/Ident \PYG{l+s+se}{\PYGZbs{}(}port \PYG{l+m}{113}\PYG{l+s+se}{\PYGZbs{})}
+\end{Verbatim}

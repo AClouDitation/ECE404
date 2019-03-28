@@ -1,0 +1,44 @@
+\documentclass[11pt]{article}
+
+% ------
+% LAYOUT
+% ------
+\textwidth 165mm %
+\textheight 230mm %
+\oddsidemargin 0mm %
+\evensidemargin 0mm %
+\topmargin -15mm %
+\parindent= 10mm
+
+\usepackage[dvips]{graphicx}
+\usepackage{multirow,multicol}
+\usepackage[table]{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\usepackage{subfigure}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{seqsplit}
+
+
+\begin{document}
+\noindent Homework Number: 09\\
+Name: Yi Qiao\\
+ECN Login: qiao22\\
+Due Date: 03/28/2019\\
+
+\section*{Fire Wall}
+\inputminted[breaklines]{bash}{firewall404.sh}
+\pagebreak
+\section*{.Procmailrc}
+\lstinputlisting[breaklines=true, basicstyle=\small]{.procmailrc}
+\pagebreak
+\section*{LOGFILE}
+\lstinputlisting[breaklines=true, basicstyle=\small]{logfile}
+\pagebreak
+
+\end{document}
