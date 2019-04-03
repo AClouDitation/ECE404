@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+
+% ------
+% LAYOUT
+% ------
+\textwidth 165mm %
+\textheight 230mm %
+\oddsidemargin 0mm %
+\evensidemargin 0mm %
+\topmargin -15mm %
+\parindent= 10mm
+
+\usepackage[dvips]{graphicx}
+\usepackage{multirow,multicol}
+\usepackage[table]{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\usepackage{subfigure}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{seqsplit}
+
+
+\begin{document}
+\noindent Homework Number: 10\\
+Name: Yi Qiao\\
+ECN Login: qiao22\\
+Due Date: 04/04/2019\\
+
+\section*{Buffer Overflow Attacks}
+\subsection*{My buffer overflow string:}
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\textbackslash x3B\textbackslash x4F\textbackslash x55\textbackslash x55\textbackslash x55\textbackslash x55\textbackslash x00\textbackslash x00
+\subsection*{Explanation}
+The string consists of two parts. The first 29 "A"s and following the 8 bytes desired address. In the server's code, the size of the "str" buffer is 5 and anything beyond 5 characters will leads to a buffer overflow. So, we want the overflow overwrites the return address of the current call frame. From GDB, I get \&str at 0x7fffffffd6fb and (unsigned*) \$rbp at 0x7fffffffd710. Thus, the return address must live in 0x7fffffffd718. the difference between the return address and \&str is 29, thus there are 29 "A"s and follows the desired address in a byte-reversed fashion.
+
+\section*{Code}
+\inputminted[breaklines]{c}{server.c}
+\end{document}
