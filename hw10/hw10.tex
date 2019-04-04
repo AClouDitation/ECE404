@@ -38,5 +38,5 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\textbackslash x3B\textbackslash x4F\textbackslash 
 The string consists of two parts. The first 29 "A"s and following the 8 bytes desired address. In the server's code, the size of the "str" buffer is 5 and anything beyond 5 characters will leads to a buffer overflow. So, we want the overflow overwrites the return address of the current call frame. From GDB, I get \&str at 0x7fffffffd6fb and (unsigned*) \$rbp at 0x7fffffffd710. Thus, the return address must live in 0x7fffffffd718. the difference between the return address and \&str is 29, thus there are 29 "A"s and follows the desired address in a byte-reversed fashion.
 
 \section*{Code}
-\inputminted[breaklines]{c}{server.c}
+\inputminted[breaklines]{c}{new_server.c}
 \end{document}
