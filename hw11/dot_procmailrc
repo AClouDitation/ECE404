@@ -1,0 +1,72 @@
+#################################
+#Homework Number:   11          #
+#Name:              Yi Qiao     #
+#ECN Login:         qiao22      #
+#Due Date:          04/10/2019  #
+#################################
+
+SHELL=/bin/sh
+PATH=/usr/local/lib/mh:$PATH
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/Mail/logfile
+SENDMAIL=/usr/sbin/sendmail
+#VERBOSE=1
+VERBOSE=0
+EOL="
+"
+LOG="$EOL$EOL$EOL"
+LOG="New message log:$EOL"
+LOG=`perl GET_MESSAGE_INDEX`
+LOG="$EOL"
+
+
+
+## Recipe_1:
+## this recipe is used to filter email with multiple entries in the "From:" header
+## if so, put into spamFolder1
+:0 H:
+* ^From: <.*@.*>(, <.*@.*>)+
+{
+    LOG="Email trashed by Recipe_1$EOL"
+
+    :0 :
+    spamFolder1
+}
+
+## Recipe_2:
+## this recipe filters email with following keywords in the subject line
+:0 H:
+* ^Subject: .*(ED medications)|(diploma)|(degree)|(imphotgence)|(buy)|(free)|(cheap)|(partner)
+{
+    LOG="Email trashed by Recipe_2$EOL"
+
+    :0 :
+    spamFolder2
+}
+
+## Recipe_3:
+## this recipe filters email with following keywords in the body
+:0 B:
+* (casino.*free)| (alert)
+{
+    LOG="Email trashed by Recipe_3$EOL"
+
+    :0 :
+    spamFolder3
+}
+
+
+## Recipe_4:
+## this recipe checks if the email have Content Type is multipart/alternative
+## and also have text/plain and text/html at the same time 
+## if so, put into spamfolder4
+:0 HB:
+* ^Content-Type: multipart/alternative
+* ^Content-Type: text/plain
+* ^Content-Type: text/html
+{
+    LOG="Email trashed by Recipe_4$EOL"
+
+    :0 :
+    spamFolder4
+}
